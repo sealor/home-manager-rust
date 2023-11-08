@@ -10,6 +10,9 @@
     rustup
   ];
 
+  home.file.".vimrc".source = config.lib.file.mkOutOfStoreSymlink ./vimrc;
+  home.file."${config.xdg.configHome}/nvim".source = config.lib.file.mkOutOfStoreSymlink ./nvim;
+
   programs.home-manager.enable = true;
 
   programs.bash = {
@@ -27,8 +30,6 @@
     vimAlias = true;
     vimdiffAlias = true;
 
-    extraConfig = builtins.readFile ./vimrc;
-    extraLuaConfig = builtins.readFile ./vim.lua;
     plugins = with pkgs.vimPlugins; [
       vim-lastplace vim-nix vim-gitgutter
 

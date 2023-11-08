@@ -1,3 +1,5 @@
+vim.cmd([[source ~/.vimrc]])
+
 require("nvim-treesitter.configs").setup({
   highlight = {
     enable = true,
