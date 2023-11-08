@@ -14,6 +14,7 @@
 
   programs.bash = {
     enable = true;
+    enableCompletion = true;
     enableVteIntegration = true;
     bashrcExtra = builtins.readFile ./bashrc;
   };
