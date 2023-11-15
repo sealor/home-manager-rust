@@ -1,4 +1,8 @@
 { config, pkgs, lib, ...}:
+
+let
+  createSymlink = localPath: config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/home-manager/${localPath}";
+in
 {
   # required settings
   home.username = "stefan";
@@ -9,9 +13,6 @@
     tmux
     rustup
   ];
-
-  home.file.".vimrc".source = config.lib.file.mkOutOfStoreSymlink ./vimrc;
-  home.file."${config.xdg.configHome}/nvim".source = config.lib.file.mkOutOfStoreSymlink ./nvim;
 
   programs.home-manager.enable = true;
 
@@ -26,18 +27,10 @@
     enable = true;
 
     defaultEditor = true;
-    viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-
-    plugins = with pkgs.vimPlugins; [
-      vim-lastplace vim-nix vim-gitgutter
-
-      lsp-zero-nvim mason-nvim nvim-cmp nvim-lspconfig mason-lspconfig-nvim cmp-nvim-lsp luasnip
-
-      (nvim-treesitter.withPlugins(p: with p; [
-        awk bash c diff dockerfile dot go gomod html java javascript json make markdown nix org python rust sql typescript terraform toml vue yaml
-      ])) # faster than nvim-treesitter.withAllGrammars
-    ];
   };
+
+  home.file.".vimrc".source = createSymlink "vimrc";
+  home.file."${config.xdg.configHome}/nvim".source = createSymlink "nvim";
 }
